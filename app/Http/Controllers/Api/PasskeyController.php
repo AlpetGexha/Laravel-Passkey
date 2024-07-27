@@ -21,7 +21,7 @@ class PasskeyController extends Controller
      */
     public function registerOptions(Request $request)
     {
-        auth()->loginUsingId(1);
+        // auth()->loginUsingId(1);
 
         $request->validate(['name' => ['required', 'string', 'max:255']]);
 
