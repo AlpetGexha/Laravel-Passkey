@@ -21,17 +21,17 @@ class Passkey extends Model
         'data',
     ];
 
-//    protected $casts = [
-//        'data' => 'json',
-//    ];
+    //    protected $casts = [
+    //        'data' => 'json',
+    //    ];
 
     public function data(): Attribute
     {
         return new Attribute(
-            get: fn(string $value) => (new WebauthnSerializerFactory(AttestationStatementSupportManager::create()))
+            get: fn (string $value) => (new WebauthnSerializerFactory(AttestationStatementSupportManager::create()))
                 ->create()
                 ->deserialize($value, PublicKeyCredentialSource::class, 'json'),
-            set: fn(PublicKeyCredentialSource $value) => [
+            set: fn (PublicKeyCredentialSource $value) => [
                 'credential_id' => $value->publicKeyCredentialId,
                 'data' => json_encode($value),
             ],

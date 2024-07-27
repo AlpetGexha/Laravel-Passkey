@@ -36,10 +36,10 @@ class PasskeyController extends Controller
                 displayName: $request->user()->name,
             ),
             challenge: Str::random(), // Attestation
-//            authenticatorSelection: new AuthenticatorSelectionCriteria(
-//                authenticatorAttachment: AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
-//                requireResidentKey: true,
-//            ),
+            //            authenticatorSelection: new AuthenticatorSelectionCriteria(
+            //                authenticatorAttachment: AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
+            //                requireResidentKey: true,
+            //            ),
         );
 
         Session::flash('publicKeyCredentialCreationOptions', $options);
@@ -50,12 +50,12 @@ class PasskeyController extends Controller
     public function authenticateOptions(Request $request)
     {
 
-//        if the user fill the email
+        //        if the user fill the email
         $allowedCredentials = $request->filled('email')
             ? Passkey::whereRelation('user', 'email', $request->email)
                 ->get()
-                ->map(fn(Passkey $passkey) => $passkey->data)
-                ->map(fn(PublicKeyCredentialSource $publicKeyCredentialSource) => $publicKeyCredentialSource->getPublicKeyCredentialDescriptor())
+                ->map(fn (Passkey $passkey) => $passkey->data)
+                ->map(fn (PublicKeyCredentialSource $publicKeyCredentialSource) => $publicKeyCredentialSource->getPublicKeyCredentialDescriptor())
             : [];
 
         $options = PublicKeyCredentialRequestOptions::create(

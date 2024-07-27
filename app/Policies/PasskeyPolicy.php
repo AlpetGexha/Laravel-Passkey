@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Passkey;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class PasskeyPolicy
 {
@@ -21,7 +20,7 @@ class PasskeyPolicy
      */
     public function view(User $user, Passkey $passkey): bool
     {
-        return (int)$user->id === (int)$passkey->user_id;
+        return (int) $user->id === (int) $passkey->user_id;
     }
 
     /**
@@ -45,7 +44,7 @@ class PasskeyPolicy
      */
     public function delete(User $user, Passkey $passkey): bool
     {
-        return (int)$user->id === (int)$passkey->user_id;
+        return (int) $user->id === (int) $passkey->user_id;
     }
 
     /**

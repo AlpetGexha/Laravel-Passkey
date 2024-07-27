@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         User::factory()
             ->has(Passkey::factory()->count(5))
             ->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
     }
 }
