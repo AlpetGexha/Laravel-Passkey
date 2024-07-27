@@ -9,7 +9,8 @@
         </p>
     </header>
 
-    <form x-data="registerPasskey" x-show="browserSupportsWebAuthn()" x-on:submit.prevent="register($el)" name="createPasskey" method="post"
+    <form x-data="registerPasskey" x-show="browserSupportsWebAuthn()" x-on:submit.prevent="register($el)"
+          name="createPasskey" method="post"
           action="{{ route('passkey.store') }}" class="mt-6 space-y-6">
         @csrf
 
@@ -28,8 +29,7 @@
     <div class="mt-6">
         <h3 class="font-medium text-gray-900">{{ __('Your Passkeys') }}</h3>
         <ul class="mt-2">
-            @forelse ($user->passkeys as $passkey)
-
+            @forelse($user->passkeys as $passkey)
                 <li class="px-2 py-2 flex justify-between items-center">
                     <div class="flex flex-col">
                         <span class="font-semibold">{{ $passkey->name }}</span>
@@ -37,22 +37,21 @@
                             class="font-thin text-sm text-gray-600">Added {{ $passkey->created_at->diffForHumans() }}</span>
                     </div>
 
-                    <form method="post" action="{{ route('passkey.destroy', ['passkey' => $passkey]) }}">
+                    <form method="post" action="{{ route('passkey.destroy', $passkey) }}">
                         @csrf
                         @method('DELETE')
 
-                        <x-danger-button class="">Remove</x-danger-button>
+                        <x-danger-button>Remove</x-danger-button>
                     </form>
-
+                </li>
             @empty
                 <li class="px-2 py-2 flex justify-between items-center">
                     <div class="flex flex-col">
                         <span class="font-semibold">No Passkeys</span>
                         <span class="font-thin text-sm text-gray-600">You have not created any passkeys yet.</span>
                     </div>
-                    @endforelse
-
                 </li>
+            @endforelse
         </ul>
     </div>
 </section>
