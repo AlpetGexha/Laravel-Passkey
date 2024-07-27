@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Passkey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\Exception\InvalidDataException;
 use Webauthn\PublicKeyCredentialCreationOptions;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialRpEntity;
+use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
 
 class PasskeyController extends Controller
@@ -35,10 +36,10 @@ class PasskeyController extends Controller
                 displayName: $request->user()->name,
             ),
             challenge: Str::random(), // Attestation
-            authenticatorSelection: new AuthenticatorSelectionCriteria(
-                authenticatorAttachment: AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
-                requireResidentKey: true,
-            ),
+//            authenticatorSelection: new AuthenticatorSelectionCriteria(
+//                authenticatorAttachment: AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
+//                requireResidentKey: true,
+//            ),
         );
 
         Session::flash('publicKeyCredentialCreationOptions', $options);
@@ -46,11 +47,21 @@ class PasskeyController extends Controller
         return response()->json($options);
     }
 
-    public function requestOptions()
+    public function authenticateOptions(Request $request)
     {
+
+//        if the user fill the email
+        $allowedCredentials = $request->filled('email')
+            ? Passkey::whereRelation('user', 'email', $request->email)
+                ->get()
+                ->map(fn(Passkey $passkey) => $passkey->data)
+                ->map(fn(PublicKeyCredentialSource $publicKeyCredentialSource) => $publicKeyCredentialSource->getPublicKeyCredentialDescriptor())
+            : [];
+
         $options = PublicKeyCredentialRequestOptions::create(
             challenge: Str::random(),
             rpId: parse_url(config('app.url'), PHP_URL_HOST),
+            allowCredentials: $allowedCredentials,
         );
 
         Session::flash('publicKeyCredentialRequestOptions', $options);
