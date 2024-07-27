@@ -31,7 +31,7 @@
     <div class="mt-6">
         <h3 class="font-medium text-gray-900">{{ __('Your Passkeys') }}</h3>
         <ul class="mt-2">
-            @forelse($user->passkeys as $passkey)
+            @forelse ($user->passkeys as $passkey)
                 <li class="px-2 py-2 flex justify-between items-center">
                     <div class="flex flex-col">
                         <span class="font-semibold">{{ $passkey->name }}</span>
