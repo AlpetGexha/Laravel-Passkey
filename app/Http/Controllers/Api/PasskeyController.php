@@ -36,13 +36,14 @@ class PasskeyController extends Controller
                 displayName: $request->user()->name,
             ),
             challenge: Str::random(), // Attestation
+
             //            authenticatorSelection: new AuthenticatorSelectionCriteria(
             //                authenticatorAttachment: AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
             //                requireResidentKey: true,
             //            ),
         );
 
-        Session::flash('publicKeyCredentialCreationOptions', $options);
+        Session::flash('passkey-register-options', $options);
 
         return response()->json($options);
     }
@@ -64,7 +65,7 @@ class PasskeyController extends Controller
             allowCredentials: $allowedCredentials,
         );
 
-        Session::flash('publicKeyCredentialRequestOptions', $options);
+        Session::flash('passkey-authenticate-options', $options);
 
         return response()->json($options);
     }

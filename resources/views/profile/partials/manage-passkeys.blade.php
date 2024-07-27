@@ -9,7 +9,9 @@
         </p>
     </header>
 
-    <form x-data="registerPasskey" x-show="browserSupportsWebAuthn()" x-on:submit.prevent="register($el)"
+    <form x-data="registerPasskey"
+          x-show="browserSupportsWebAuthn()"
+          x-on:submit.prevent="register($el)"
           name="createPasskey" method="post"
           action="{{ route('passkey.store') }}" class="mt-6 space-y-6">
         @csrf
