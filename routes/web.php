@@ -18,4 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/passkey', \App\Http\Controllers\PasskeyController::class);
 });
 
+Route::post('/passkey/authenticate',[App\Http\Controllers\PasskeyController::class, 'authenticate'])
+    ->name('passkey.authenticate');
+
 require __DIR__.'/auth.php';

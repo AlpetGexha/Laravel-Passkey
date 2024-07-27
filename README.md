@@ -73,3 +73,5 @@ To create Request Options lets call PublicKeyCredentialRequestOptions(...) and w
 We store that on Session and we send to the backend.
 
 The logic is almost the same as store except now we need to check for Assertion instead of Attestation. And we are not Storing the Passkey but we are checking if the Passkey is valid and Authenticate the user.
+
+We retrieve the user passkey from the database and we check if the response is valid.
