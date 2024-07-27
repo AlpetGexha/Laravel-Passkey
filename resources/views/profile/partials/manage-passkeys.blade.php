@@ -9,13 +9,15 @@
         </p>
     </header>
 
-    <form name="createPasskey" method="post" action="/" class="mt-6 space-y-6" id="passkey">
+    <form x-data="registerPasskey" x-show="browserSupportsWebAuthn()" x-on:submit.prevent="register($el)" name="createPasskey" method="post"
+          action="{{ route('passkey.store') }}" class="mt-6 space-y-6">
         @csrf
 
         <div>
             <x-input-label for="create_passkey_passkey_name" :value="__('Passkey Name')"/>
-            <x-text-input id="create_passkey_passkey_name" name="name" autofocus class="mt-1 block w-full"/>
+            <x-text-input x-model="name" id="create_passkey_passkey_name" name="name" class="mt-1 block w-full"/>
             <x-input-error :messages="$errors->createPasskey->get('name')" class="mt-2"/>
+            <x-alpine-input-error messages="errors?.name"/>
         </div>
 
         <div class="flex items-center gap-4">
